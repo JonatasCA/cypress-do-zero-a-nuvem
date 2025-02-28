@@ -1,25 +1,30 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('fillMandatoryFieldsAndSubmit', () => {
+    const longText = Cypress._.repeat('Texto teste', 10) // Criando uma variável para armazenar um texto extenso utilizando biblioteca _.repeat
+
+    cy.get('#firstName').type('Ana').should('have.value', 'Ana')
+    cy.get('#lastName').type('Beatriz').should('have.value', 'Beatriz')
+    cy.get('#email').type('anabeatriz@email.com').should('have.value', 'anabeatriz@email.com')
+    cy.get('#open-text-area').type(longText).should('have.value', longText) //Valor da variável
+    cy.get('.button[type="submit"]').click()
+})
+
+Cypress.Commands.add('fillMandatoryFieldsAndSubmitArguments', data => {
+    cy.get('#firstName').type(data.firstName).should('have.value', data.firstName)
+    cy.get('#lastName').type(data.lastName).should('have.value', data.lastName)
+    cy.get('#email').type(data.email).should('have.value', data.email)
+    cy.get('#open-text-area').type(data.text).should('have.value', data.text)
+    cy.get('.button[type="submit"]').click()
+})
+
+Cypress.Commands.add('fillMandatoryFieldsAndSubmitArgumentsDefault', (data = {
+    firstName: 'Arlindo',
+    lastName: 'Bento',
+    email: 'arlindo@bento.com',
+    text: 'Teste texto'
+}) => {
+    cy.get('#firstName').type(data.firstName).should('have.value', data.firstName)
+    cy.get('#lastName').type(data.lastName).should('have.value', data.lastName)
+    cy.get('#email').type(data.email).should('have.value', data.email)
+    cy.get('#open-text-area').type(data.text).should('have.value', data.text)
+    cy.get('.button[type="submit"]').click()
+})

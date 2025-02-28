@@ -14,7 +14,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#lastName').type('Beatriz').should('have.value', 'Beatriz')
     cy.get('#email').type('anabeatriz@email.com').should('have.value', 'anabeatriz@email.com')
     cy.get('#open-text-area').type(longText, {delay: 0}).should('have.value', longText) //Valor da variável
-    cy.get('.button[type="submit"]').click()
+    //cy.get('.button[type="submit"]').click()
+    cy.contains('button', 'Enviar').click()
 
     cy.get('.success').should('be.visible')
   })
@@ -24,7 +25,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#lastName').type('Beatriz').should('have.value', 'Beatriz')
     cy.get('#email').type('anabeatriz').should('have.value', 'anabeatriz')
     cy.get('#open-text-area').type("Um texto aleatório").should('have.value',"Um texto aleatório")
-    cy.get('.button[type="submit"]').click()
+    //cy.get('.button[type="submit"]').click()
+    cy.contains('button', 'Enviar').click()
 
     cy.get('.error').should('be.visible')
   })
@@ -41,18 +43,56 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#email').type('anabeatriz@email.com').should('have.value', 'anabeatriz@email.com')
     cy.get('#phone-checkbox[type="checkbox"]').click()
     cy.get('#open-text-area').type("Um texto aleatório").should('have.value',"Um texto aleatório")
-    cy.get('.button[type="submit"]').click()
+    //cy.get('.button[type="submit"]').click()
+    cy.contains('button', 'Enviar').click()
 
     cy.get('.error').should('be.visible')
   })
 
-  it.only('Validar limpeza de campos', () => {
+  it('Validar limpeza de campos', () => {
     cy.get('#firstName').type('Ana').should('have.value', 'Ana').clear()
     cy.get('#lastName').type('Beatriz').should('have.value', 'Beatriz').clear()
     cy.get('#email').type('anabeatriz@email.com').should('have.value', 'anabeatriz@email.com').clear()
     cy.get('#open-text-area').type("Um texto aleatório").should('have.value',"Um texto aleatório").clear()
 
     cy.get('#firstName, #lastName, #email, #open-text-area').should('have.value', '')
+  })
+
+  it('Validar mensamge de erro ao não preencher campos obrigatórios', () => {
+    //cy.get('.button[type="submit"]').click()
+    cy.contains('button', 'Enviar').click()
+
+    cy.get('.error').should('be.visible')
+  })
+
+  it('Enviar com sucesso o formulário utilizando comandos customizados', () => {
+    cy.fillMandatoryFieldsAndSubmit()
+
+    cy.get('.success').should('be.visible')
+  })
+
+  it('Enviar com sucesso o formulário utilizando comandos customizados - Com argumentos', () => {
+    const data = {
+      firstName: 'Jonatas',
+      lastName: 'Ciscati',
+      email: 'jonatas@ciscati.com',
+      text: 'Texto teste'
+    }
+    cy.fillMandatoryFieldsAndSubmitArguments(data)
+
+    cy.get('.success').should('be.visible')
+  })
+
+  it('Enviar com sucesso o formulário utilizando comandos customizados - Com argumentos', () => {
+    // const data = {
+    //   firstName: 'Jonatas',
+    //   lastName: 'Ciscati',
+    //   email: 'jonatas@ciscati.com',
+    //   text: 'Texto teste'
+    // }
+    cy.fillMandatoryFieldsAndSubmitArgumentsDefault()
+
+    cy.get('.success').should('be.visible')
   })
 
 })
