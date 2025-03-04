@@ -16,7 +16,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('.success').should('be.visible')
     })
 
-    it.only('Selecionar o tipo de atendimento "Elogia"', () => {
+    it('Selecionar o tipo de atendimento "Elogia"', () => {
         cy.get('input[type="radio"]')
             .each(typeOfService => {
                 cy.wrap(typeOfService)
