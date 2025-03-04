@@ -4,6 +4,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     })
 
     it('Selecionar o tipo de atendimento "Feedback"', () => {
+        cy.clock()
         cy.get('input[type="radio"][value="feedback"]').check('feedback').should('be.checked')
 
         cy.get('#firstName').type('Ana').should('have.value', 'Ana')
@@ -14,6 +15,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.contains('button', 'Enviar').click()
 
         cy.get('.success').should('be.visible')
+        cy.tick(3000)
+        cy.get('.success').should('not.be.visible')
     })
 
     it('Selecionar o tipo de atendimento "Elogia"', () => {
