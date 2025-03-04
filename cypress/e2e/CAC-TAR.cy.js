@@ -41,7 +41,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#firstName').type('Ana').should('have.value', 'Ana')
     cy.get('#lastName').type('Beatriz').should('have.value', 'Beatriz')
     cy.get('#email').type('anabeatriz@email.com').should('have.value', 'anabeatriz@email.com')
-    cy.get('#phone-checkbox[type="checkbox"]').click()
+    cy.get('#phone-checkbox[type="checkbox"]').check()
     cy.get('#open-text-area').type("Um texto aleatório").should('have.value',"Um texto aleatório")
     //cy.get('.button[type="submit"]').click()
     cy.contains('button', 'Enviar').click()
